@@ -5,10 +5,7 @@
 BigCloneEval is a framework for performing clone detection tool evaluation experiments
 with the BigCloneBench clone benchmark.
 
-BigCloneEval is available at http://jeff.svajlenko.com/bigcloneeval.
-
-BigCloneBench is available at http://jeff.svajlenko.com/bigclonebench
-
+Database and database files available at:  http://jeff.svajlenko.com/bigcloneeval.
 
 ==========================================================================================
                                    Contact Information
@@ -29,8 +26,8 @@ Chanchal K. Roy (chanchal.roy@usask.ca)
 
 Complete the following steps to install the setup BigCloneEval.
 
-Alternatively, download the VM version fo BigCloneEval to have a pre-configured
-environment.
+Alternatively, download the VM version of BigCloneEval to have a pre-configured
+environment. Username: `bigcloneeval`, password: `clones`.
 
 ------------------------------------------------------------------------------------------
 	Step 1: Get the latest version of BigCloneEval
@@ -50,8 +47,10 @@ from the following webpage:
 
 http://jeff.svajlenko.com/bigcloneeval
 
-Extract the contents of BigCloneBench into the 'bigclonebenchdb' directory of the
-BigCloneEval distribution.
+Extract the contents of BigCloneBench (BigCloneBench_BCEvalVersion.tar.gz) into the
+'bigclonebenchdb' directory of the BigCloneEval distribution.
+
+To manually view this database, use h2database: http://h2database.com/html/main.html.
 
 ------------------------------------------------------------------------------------------
 	Step 3: Get the latest version of IJaDataset
@@ -62,10 +61,10 @@ the following webpage:
 
 http://jeff.svajlenko.com/bigcloneeval
 
-Extract the contents of BigCloneBench into the 'ijadataset' directory of the
-BigCloneEval distribution.
+Extract the contents of IJaDataset (IJaDataset_BCEvalVersion.tar.gz) into the 'ijadataset'
+directory of the BigCloneEval distribution.
 
-This should create a directory 'ijadataset/bcb_sample/' which contains one sub-directory
+This should create a directory 'ijadataset/bcb_reduced/' which contains one sub-directory
 per functionality in BigCloneBench.
 
 ------------------------------------------------------------------------------------------
@@ -202,7 +201,9 @@ the clones should be output in the format expected by the importClones command (
 next step), although any output is supported.  
 
 The 'sample/' directory contains the nicadRunner as an example bash script targeting
-Linux/OSX, and and iclonesRunner.cmd command script targeting Windows.
+Linux/OSX, and and iclonesRunner.cmd command script targeting Windows.  Note that these
+scripts won't run as is, and will require downloading and installing the clone detection
+tools, and modifying the runner to work with your computer's environment.
 
 The detectClones command takes this script as input, the maximum files the tool can handle
 without scalability issues on the available hardware, and a scratch directory to use in
@@ -254,8 +255,7 @@ format.
 The evaluate command is used to measure the recall of the clone detection tool for
 BigCloneBench based on its imported clones.  This takes the ID of the tool, a file to
 output the tool evaluation report to, and a number of configuration options for
-customizing the recall evaluation experiment.  If no configuration options are provided,
-default options are used.
+customizing the recall evaluation experiment.
 
 Clone Matcher
 -------------
@@ -298,9 +298,6 @@ Similar to the minimum judges, the minimum confidence is the minimum agreement w
 multiple judges are used.  This is, for both code fragments, the minimum difference in
 true positive vs false positive votes by the judges.  Currently a small portion of the
 data has been seen by more than two judges, where this constraint is relevant.
-
-For now we reccomend just using the size constraints.  The other constraitns will be more
-useful as BigCloneBench developes.
 
 Similarity Type
 ---------------
@@ -347,9 +344,9 @@ If time allows, it is best to run for full range.  However, executing for a mini
 similarity of 50% is sufficient for most tools, as they have 0% or near-0% for the Weakly
 Type-3 / Type-4 category, and often similar for the Moderately Type-3.
 
-Defaults
---------
-The default settings are as follows:
+Reccomended Settings
+--------------------
+The reccomended settings are as follows:
 
 similarity type = both line and token (smaller measure)
 minimum clone size in original source lines = 6 lines

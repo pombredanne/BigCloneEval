@@ -69,7 +69,7 @@ public class DetectClones {
 		
 		options.addOption(Option.builder("sd")
 								.longOpt("scratch-directory")
-								.desc("Directory to be used as scratch space.  Default is system tmp directory.")
+								.desc("Directory to be used as scratch space.  Default is system tmp directory.  Can not already exist.")
 								.hasArg()
 								.argName("path")
 								.build()
@@ -152,6 +152,11 @@ public class DetectClones {
 				return;
 			}
 			scratchDirectory = FixPath.getAbsolutePath(scratchDirectory);
+			if(Files.exists(scratchDirectory)) {
+				System.err.println("Scratch directory already exists.  Must specify a new one (to protect against accidental data loss).");
+				panic(-1);
+				return;
+			}
 			try {
 				Files.createDirectories(scratchDirectory);
 			} catch (Exception e) {
@@ -200,7 +205,8 @@ public class DetectClones {
 		} catch (IOException e1) {
 			System.err.println("An exeception occured during detection:");
 			e1.printStackTrace(System.err);
-			System.exit(-1);
+			panic(-1);
+			return;
 		}
 	
 	// Cleanup
@@ -282,7 +288,7 @@ public class DetectClones {
 	
 	public static void detect(Path tool, Path input, Writer out, Path scratchdir, int maxFiles, boolean cleanup) throws IOException {
 	// Partition
-		Path tmpdir = Files.createTempDirectory(input.getFileName().toString() + "_partition");
+		Path tmpdir = Files.createDirectories(scratchdir.resolve(input.getFileName().toString() + "_partition"));
 		DetectClones.partition(input, tmpdir, maxFiles);
 		
 	// Run for each partition
